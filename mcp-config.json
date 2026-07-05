@@ -1,0 +1,109 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/mcp-config.schema.json",
+  "version": "1.0",
+  "metadata": {
+    "name": "langchain-mcp-integration",
+    "description": "MCP configuration for LangChain AI application with multiple LLM integrations",
+    "created": "2026-07-05T00:00:00Z"
+  },
+  "mcpServers": {
+    "langchain-ai-server": {
+      "type": "server",
+      "description": "MCP server for LangChain AI orchestration",
+      "protocol": "stdio",
+      "framework": "langchain",
+      "capabilities": [
+        "prompts",
+        "resources",
+        "tools"
+      ],
+      "llmProviders": [
+        {
+          "name": "openai",
+          "package": "langchain-openai",
+          "version": "latest",
+          "models": ["gpt-4", "gpt-3.5-turbo"]
+        },
+        {
+          "name": "anthropic",
+          "package": "langchain-anthropic",
+          "version": "latest",
+          "models": ["claude-3-opus", "claude-3-sonnet", "claude-3-haiku"]
+        },
+        {
+          "name": "google-genai",
+          "package": "langchain-google-genai",
+          "version": "latest",
+          "models": ["gemini-pro", "gemini-pro-vision"]
+        },
+        {
+          "name": "huggingface",
+          "package": "langchain-huggingface",
+          "version": "latest",
+          "models": ["open-source-models"]
+        }
+      ]
+    }
+  },
+  "mcpClients": {
+    "langchain-client": {
+      "type": "client",
+      "description": "MCP client for consuming AI services",
+      "protocol": "stdio",
+      "connects_to": ["langchain-ai-server"],
+      "features": [
+        "prompt-templates",
+        "chain-execution",
+        "embedding-generation",
+        "chat-interface"
+      ]
+    }
+  },
+  "mcpTools": [
+    {
+      "name": "prompt-generator",
+      "type": "tool",
+      "description": "Dynamic prompt generation tool",
+      "source": "prompts/prompt_generator.py",
+      "capabilities": ["text-generation", "template-rendering"]
+    },
+    {
+      "name": "chat-interface",
+      "type": "tool",
+      "description": "Chat model interface",
+      "source": "prompts/chatbot.py",
+      "capabilities": ["conversation", "context-management"]
+    },
+    {
+      "name": "embedding-service",
+      "type": "tool",
+      "description": "Text embedding generation",
+      "source": "embeddedmodels/embedding.py",
+      "capabilities": ["vector-embedding", "similarity-search"]
+    }
+  ],
+  "dependencies": {
+    "core": [
+      "langchain",
+      "langchain-core"
+    ],
+    "llm-integrations": [
+      "langchain-openai",
+      "langchain-anthropic",
+      "langchain-google-genai",
+      "langchain-huggingface"
+    ],
+    "mcp-sdk": [
+      "mcp"
+    ]
+  },
+  "security": {
+    "api_keys_required": true,
+    "environment_variables": [
+      "OPENAI_API_KEY",
+      "ANTHROPIC_API_KEY",
+      "GOOGLE_API_KEY",
+      "HUGGINGFACE_API_KEY"
+    ]
+  }
+}
