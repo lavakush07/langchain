@@ -3,11 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.pyc
 .Python
 venv/
 ENV/
 env/
 .venv
+.venv/
 
 # Distribution / packaging
 dist/
