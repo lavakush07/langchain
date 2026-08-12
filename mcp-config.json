@@ -11,6 +11,8 @@
       "type": "server",
       "description": "MCP server for LangChain AI orchestration",
       "protocol": "stdio",
+      "command": ".venv/bin/python",
+      "args": ["mcp/server.py"],
       "framework": "langchain",
       "capabilities": [
         "prompts",
@@ -50,6 +52,7 @@
       "type": "client",
       "description": "MCP client for consuming AI services",
       "protocol": "stdio",
+      "source": "mcp/client.py",
       "connects_to": ["langchain-ai-server"],
       "features": [
         "prompt-templates",
@@ -64,22 +67,45 @@
       "name": "prompt-generator",
       "type": "tool",
       "description": "Dynamic prompt generation tool",
-      "source": "prompts/prompt_generator.py",
+      "source": "mcp/server.py",
+      "handler": "generate_prompt",
       "capabilities": ["text-generation", "template-rendering"]
     },
     {
       "name": "chat-interface",
       "type": "tool",
       "description": "Chat model interface",
-      "source": "prompts/chatbot.py",
+      "source": "mcp/server.py",
+      "handler": "chat",
       "capabilities": ["conversation", "context-management"]
     },
     {
       "name": "embedding-service",
       "type": "tool",
       "description": "Text embedding generation",
-      "source": "embeddedmodels/embedding.py",
+      "source": "mcp/server.py",
+      "handler": "generate_embedding",
       "capabilities": ["vector-embedding", "similarity-search"]
+    },
+    {
+      "name": "chain-executor",
+      "type": "tool",
+      "description": "Run LangChain prompt | model | parser chains",
+      "source": "mcp/server.py",
+      "handler": "run_chain",
+      "capabilities": ["chain-execution", "text-generation"]
+    }
+  ],
+  "mcpResources": [
+    {
+      "uri": "langchain://config",
+      "description": "LangChain MCP application configuration",
+      "source": "mcp/server.py"
+    },
+    {
+      "uri": "langchain://template/paper-summary",
+      "description": "Paper summary prompt template",
+      "source": "mcp/server.py"
     }
   ],
   "dependencies": {
@@ -94,7 +120,9 @@
       "langchain-huggingface"
     ],
     "mcp-sdk": [
-      "mcp"
+      "mcp",
+      "fastmcp",
+      "langchain-mcp-adapters"
     ]
   },
   "security": {

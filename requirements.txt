@@ -19,8 +19,10 @@ langchain-huggingface>=1.2.2
 transformers>=5.12.1
 huggingface-hub>=1.21.0
 
-# MCP SDK (Model Context Protocol)
-mcp>=0.1.0
+# MCP Integration
+mcp>=1.24.0
+fastmcp>=3.0.0
+langchain-mcp-adapters>=0.3.0
 
 # Additional utilities
 requests>=2.31.0

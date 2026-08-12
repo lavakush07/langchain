@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "langchain-ai-server": {
+      "command": ".venv/bin/python",
+      "args": ["mcp/server.py"],
+      "cwd": "${workspaceFolder}"
+    }
+  }
+}
